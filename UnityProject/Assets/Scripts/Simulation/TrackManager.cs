@@ -91,6 +91,11 @@ public class TrackManager : MonoBehaviour
     /// </summary>
     public event System.Action<CarController> BestCarChanged;
 
+    /// <summary>
+    /// When the best car is dead, fired next alive car
+    /// </summary>
+    public event System.Action<CarController> BestAliveCarChanged;
+
     private CarController secondBestCar = null;
     /// <summary>
     /// The current second best car (furthest in the track).
@@ -166,6 +171,8 @@ public class TrackManager : MonoBehaviour
     // Unity method for updating the simulation
     void Update()
     {
+        CarController BestAliveCar = null;
+        float maxReward = 0f;
         //Update reward for each enabled car on the track
         for (int i = 0; i < cars.Count; i++)
         {
@@ -173,12 +180,32 @@ public class TrackManager : MonoBehaviour
             if (car.Car.enabled)
             {
                 car.Car.CurrentCompletionReward = GetCompletePerc(car.Car, ref car.CheckpointIndex);
-
-                //Update best
+                if (car.Car.CurrentCompletionReward >= maxReward)
+                {
+                    maxReward = car.Car.CurrentCompletionReward;
+                    BestAliveCar = car.Car;
+                }
+                // Update best
                 if (BestCar == null || car.Car.CurrentCompletionReward >= BestCar.CurrentCompletionReward)
+                {
+                    // if no best car or current car is better than best car
                     BestCar = car.Car;
-                else if (SecondBestCar == null || car.Car.CurrentCompletionReward >= SecondBestCar.CurrentCompletionReward)
+                }
+                else if (SecondBestCar == null ||
+                         car.Car.CurrentCompletionReward >= SecondBestCar.CurrentCompletionReward)
+                {
+                    // if  no second best car
                     SecondBestCar = car.Car;
+                }
+            }
+        }
+        
+        if (BestCar != null && !BestCar.enabled && BestCar != BestAliveCar)
+        {
+            // if BestCar is dead, focus on next best
+            if (BestAliveCarChanged != null)
+            {
+                BestAliveCarChanged(BestAliveCar);
             }
         }
     }
@@ -199,7 +226,9 @@ public class TrackManager : MonoBehaviour
                 carCopy.transform.position = startPosition;
                 carCopy.transform.rotation = startRotation;
                 CarController controllerCopy = carCopy.GetComponent<CarController>();
-                cars.Add(new RaceCar(controllerCopy, 1));
+                var raceCar = new RaceCar(controllerCopy, 1);
+                raceCar.Car.CarDied += OnCarDied;
+                cars.Add(raceCar);
                 carCopy.SetActive(true);
             }
         }
@@ -292,5 +321,11 @@ public class TrackManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnCarDied(CarController car)
+    {
+        // Debug.Log("Dead");
+        // Switch to next best active
+    }
 
 }

@@ -2,8 +2,10 @@
 /// Date: March 2017
 
 #region Includes
+
 using UnityEngine;
 using UnityEngine.UI;
+
 #endregion
 
 /// <summary>
@@ -12,20 +14,19 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     #region Members
+
     /// <summary>
     /// The parent canvas of all UI elements.
     /// </summary>
-    public Canvas Canvas
-    {
-        get;
-        private set;
-    }
+    public Canvas Canvas { get; private set; }
 
     private UISimulationController simulationUI;
     private UIStartMenuController startMenuUI;
+
     #endregion
 
     #region Constructors
+
     void Awake()
     {
         if (GameStateManager.Instance != null)
@@ -37,9 +38,11 @@ public class UIController : MonoBehaviour
 
         simulationUI.Show();
     }
+
     #endregion
 
     #region Methods
+
     /// <summary>
     /// Sets the CarController from which to get the data from to be displayed.
     /// </summary>
@@ -48,5 +51,6 @@ public class UIController : MonoBehaviour
     {
         simulationUI.Target = target;
     }
+
     #endregion
 }

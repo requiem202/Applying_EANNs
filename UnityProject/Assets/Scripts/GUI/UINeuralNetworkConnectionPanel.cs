@@ -2,9 +2,11 @@
 /// Date: March 2017
 
 #region Includes
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
 #endregion
 
 /// <summary>
@@ -13,16 +15,16 @@ using System.Collections.Generic;
 public class UINeuralNetworkConnectionPanel : MonoBehaviour
 {
     #region Members
+
     // References to be set in Unity Editor.
-    [SerializeField]
-    private List<Image> Connections;
-    [SerializeField]
-    private Color PositiveColor;
-    [SerializeField]
-    private Color NegativeColor;
+    [SerializeField] private List<Image> Connections;
+    [SerializeField] private Color PositiveColor;
+    [SerializeField] private Color NegativeColor;
+
     #endregion
 
     #region Methods
+
     /// <summary>
     /// Displays the connections of a neuron of one layer to all neurons of the next layer.
     /// </summary>
@@ -43,7 +45,7 @@ public class UINeuralNetworkConnectionPanel : MonoBehaviour
             Connections.Add(newConnection);
         }
 
-        //Destory all unnecessary connections
+        //Destroy all unnecessary connections
         for (int i = this.Connections.Count - 1; i >= currentLayer.OutputCount; i++)
         {
             Image toBeDestroyed = Connections[i];
@@ -55,7 +57,6 @@ public class UINeuralNetworkConnectionPanel : MonoBehaviour
         //Position connections
         for (int i = 0; i < Connections.Count; i++)
             PositionConnection(Connections[i], nextLayer.Nodes[i], neuronIndex, i, currentLayer.Weights);
-
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class UINeuralNetworkConnectionPanel : MonoBehaviour
     /// </summary>
     public void HideConnections()
     {
-        //Destory all but dummy connection
+        //Destroy all but dummy connection
         for (int i = this.Connections.Count - 1; i >= 1; i++)
         {
             Image toBeDestroyed = Connections[i];
@@ -74,9 +75,10 @@ public class UINeuralNetworkConnectionPanel : MonoBehaviour
         //Hide dummy connection
         Connections[0].gameObject.SetActive(false);
     }
-	
+
     // Method for positioning the connection correctly (a bit tricky to draw lines in GUI with unity)
-    private void PositionConnection(Image connection, UINeuralNetworkConnectionPanel otherNode, int nodeIndex, int connectedNodeIndex, double[,] weights)
+    private void PositionConnection(Image connection, UINeuralNetworkConnectionPanel otherNode, int nodeIndex,
+        int connectedNodeIndex, double[,] weights)
     {
         //Set local position to 0
         connection.transform.localPosition = Vector3.zero;
@@ -103,7 +105,7 @@ public class UINeuralNetworkConnectionPanel : MonoBehaviour
         //Set connection rotation
         float angle = Vector2.Angle(Vector2.up, connectionVec);
         connection.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
-
     }
+
     #endregion
 }

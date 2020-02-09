@@ -2,7 +2,9 @@
 /// Date: March
 
 #region Includes
+
 using System;
+
 #endregion
 
 /// <summary>
@@ -11,7 +13,9 @@ using System;
 public static class MathHelper
 {
     #region Methods
+
     #region Activation Functions
+
     /// <summary>
     /// The standard sigmoid function.
     /// </summary>
@@ -46,7 +50,8 @@ public static class MathHelper
     {
         return xValue / (1 + Math.Abs(xValue));
     }
+
     #endregion
+
     #endregion
 }
-

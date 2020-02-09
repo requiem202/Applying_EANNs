@@ -2,7 +2,9 @@
 /// Date: March 2017
 
 #region Includes
+
 using UnityEngine;
+
 #endregion
 
 
@@ -12,35 +14,33 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     #region Members
+
     // Distance of Camera to target in Z direction, to be set in Unity Editor.
-    [SerializeField]
-    private int CamZ = -10;
+    [SerializeField] private int CamZ = -10;
+
     // The initial Camera target, to be set in Unity Editor.
-    [SerializeField]
-    private GameObject Target;
+    [SerializeField] private GameObject Target;
+
     // The speed of camera movement, to be set in Unity Editor.
-    [SerializeField]
-    private float CamSpeed = 5f;
+    [SerializeField] private float CamSpeed = 5f;
+
     // The speed of camera movement when reacting to user input, to be set in Unity Editor.
-    [SerializeField]
-    private float UserInputSpeed = 50f;
+    [SerializeField] private float UserInputSpeed = 50f;
+
     // Whether the camera can be controlled by user input, to be set in Unity Editor.
-    [SerializeField]
-    private bool AllowUserInput;
+    [SerializeField] private bool AllowUserInput;
 
     /// <summary>
     /// The bounds the camera may move in.
     /// </summary>
-    public RectTransform MovementBounds
-    {
-        get;
-        set;
-    }
+    public RectTransform MovementBounds { get; set; }
 
     private Vector3 targetCamPos;
+
     #endregion
 
     #region Methods
+
     /// <summary>
     /// Sets the target to follow.
     /// </summary>
@@ -54,8 +54,19 @@ public class CameraMovement : MonoBehaviour
         this.Target = target;
     }
 
+    /// <summary>
+    /// Check if the target is currently focused
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool IsCurrentTarget(GameObject target)
+    {
+        if (Target == null) return false;
+        return Target == target;
+    }
+
     // Unity method for updating the simulation
-	void FixedUpdate ()
+    void FixedUpdate()
     {
         //Check movement direction
         if (AllowUserInput)
@@ -64,7 +75,9 @@ public class CameraMovement : MonoBehaviour
             targetCamPos = Target.transform.position;
 
         targetCamPos.z = CamZ; //Always set z to cam distance
-        this.transform.position = Vector3.Lerp(this.transform.position, targetCamPos, CamSpeed * Time.deltaTime); //Move camera with interpolation
+        this.transform.position =
+            Vector3.Lerp(this.transform.position, targetCamPos,
+                CamSpeed * Time.deltaTime); //Move camera with interpolation
 
         //Check if out of bounds
         if (MovementBounds != null)
@@ -72,30 +85,38 @@ public class CameraMovement : MonoBehaviour
             float vertExtent = Camera.main.orthographicSize;
             float horzExtent = vertExtent * Screen.width / Screen.height;
 
-            float rightDiff = (this.transform.position.x + horzExtent) - (MovementBounds.position.x + MovementBounds.rect.width / 2);
-            float leftDiff = (this.transform.position.x - horzExtent) - (MovementBounds.position.x - MovementBounds.rect.width / 2);
-            float upDiff = (this.transform.position.y + vertExtent) - (MovementBounds.position.y + MovementBounds.rect.height / 2);
-            float downDiff = (this.transform.position.y - vertExtent) - (MovementBounds.position.y - MovementBounds.rect.height / 2);
+            float rightDiff = (this.transform.position.x + horzExtent) -
+                              (MovementBounds.position.x + MovementBounds.rect.width / 2);
+            float leftDiff = (this.transform.position.x - horzExtent) -
+                             (MovementBounds.position.x - MovementBounds.rect.width / 2);
+            float upDiff = (this.transform.position.y + vertExtent) -
+                           (MovementBounds.position.y + MovementBounds.rect.height / 2);
+            float downDiff = (this.transform.position.y - vertExtent) -
+                             (MovementBounds.position.y - MovementBounds.rect.height / 2);
 
             if (rightDiff > 0)
             {
-                this.transform.position = new Vector3(this.transform.position.x - rightDiff, this.transform.position.y, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x - rightDiff, this.transform.position.y,
+                    this.transform.position.z);
                 targetCamPos.x = this.transform.position.x;
             }
             else if (leftDiff < 0)
             {
-                this.transform.position = new Vector3(this.transform.position.x - leftDiff, this.transform.position.y, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x - leftDiff, this.transform.position.y,
+                    this.transform.position.z);
                 targetCamPos.x = this.transform.position.x;
             }
 
             if (upDiff > 0)
             {
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - upDiff, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - upDiff,
+                    this.transform.position.z);
                 targetCamPos.y = this.transform.position.y;
             }
             else if (downDiff < 0)
             {
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - downDiff, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - downDiff,
+                    this.transform.position.z);
                 targetCamPos.y = this.transform.position.y;
             }
         }
@@ -119,7 +140,9 @@ public class CameraMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        targetCamPos += new Vector3(horizontalInput * UserInputSpeed * Time.deltaTime, verticalInput * UserInputSpeed * Time.deltaTime);
+        targetCamPos += new Vector3(horizontalInput * UserInputSpeed * Time.deltaTime,
+            verticalInput * UserInputSpeed * Time.deltaTime);
     }
+
     #endregion
 }

@@ -12,6 +12,11 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     #region Members
+    /// <summary>
+    /// Event when a Car died
+    /// </summary>
+    public event System.Action<CarController> CarDied;
+    
     #region IDGenerator
     // Used for unique ID generation
     private static int idGenerator = 0;
@@ -148,6 +153,7 @@ public class CarController : MonoBehaviour
             s.Hide();
 
         Agent.Kill();
+        CarDied?.Invoke(this);
     }
 
     public void CheckpointCaptured()

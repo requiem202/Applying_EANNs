@@ -2,8 +2,10 @@
 /// Date: March 2017
 
 #region Includes
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 #endregion
 
 /// <summary>
@@ -12,33 +14,26 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
     #region Members
+
     // The camera object, to be referenced in Unity Editor.
-    [SerializeField]
-    private CameraMovement Camera;
+    [SerializeField] private CameraMovement Camera;
 
     // The name of the track to be loaded
-    [SerializeField]
-    public string TrackName;
+    [SerializeField] public string TrackName;
 
     /// <summary>
     /// The UIController object.
     /// </summary>
-    public UIController UIController
-    {
-        get;
-        set;
-    }
+    public UIController UIController { get; set; }
 
-    public static GameStateManager Instance
-    {
-        get;
-        private set;
-    }
+    public static GameStateManager Instance { get; private set; }
 
     private CarController prevBest, prevSecondBest;
+
     #endregion
 
     #region Constructors
+
     private void Awake()
     {
         if (Instance != null)
@@ -46,6 +41,7 @@ public class GameStateManager : MonoBehaviour
             Debug.LogError("Multiple GameStateManagers in the Scene.");
             return;
         }
+
         Instance = this;
 
         //Load gui scene
@@ -55,14 +51,17 @@ public class GameStateManager : MonoBehaviour
         SceneManager.LoadScene(TrackName, LoadSceneMode.Additive);
     }
 
-    void Start ()
+    void Start()
     {
         TrackManager.Instance.BestCarChanged += OnBestCarChanged;
+        TrackManager.Instance.BestAliveCarChanged += OnBestAliveCarChanged;
         EvolutionManager.Instance.StartEvolution();
-	}
+    }
+
     #endregion
 
     #region Methods
+
     // Callback method for when the best car has changed.
     private void OnBestCarChanged(CarController bestCar)
     {
@@ -70,9 +69,18 @@ public class GameStateManager : MonoBehaviour
             Camera.SetTarget(null);
         else
             Camera.SetTarget(bestCar.gameObject);
-            
+
         if (UIController != null)
             UIController.SetDisplayTarget(bestCar);
     }
+
+    private void OnBestAliveCarChanged(CarController bestAliveCar)
+    {
+        if (bestAliveCar == null)
+            Camera.SetTarget(null);
+        else
+            Camera.SetTarget(bestAliveCar.gameObject);
+    }
+
     #endregion
 }

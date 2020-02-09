@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\projects\Applying_EANNs\UnityProject" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="AI" t="Include">
+            <e p="Agent.cs" t="Include" />
+            <e p="Evolution" t="Include">
+              <e p="EvolutionManager.cs" t="Include" />
+              <e p="GeneticAlgorithm.cs" t="Include" />
+              <e p="Genotype.cs" t="Include" />
+            </e>
+            <e p="NeuralNetworks" t="Include">
+              <e p="NeuralLayer.cs" t="Include" />
+              <e p="NeuralNetwork.cs" t="Include" />
+            </e>
+          </e>
+          <e p="General" t="Include">
+            <e p="GameStateManager.cs" t="Include" />
+            <e p="MathHelper.cs" t="Include" />
+          </e>
+          <e p="GUI" t="Include">
+            <e p="UIController.cs" t="Include" />
+            <e p="UINeuralNetworkConnectionPanel.cs" t="Include" />
+            <e p="UINeuralNetworkLayerPanel.cs" t="Include" />
+            <e p="UINeuralNetworkPanel.cs" t="Include" />
+            <e p="UISimulationController.cs" t="Include" />
+            <e p="UIStartMenuController.cs" t="Include" />
+          </e>
+          <e p="Simulation" t="Include">
+            <e p="CameraMovement.cs" t="Include" />
+            <e p="CarController.cs" t="Include" />
+            <e p="CarMovement.cs" t="Include" />
+            <e p="Checkpoint.cs" t="Include" />
+            <e p="Sensor.cs" t="Include" />
+            <e p="TrackManager.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="UnityProject.sln" t="IncludeFlat" />
+    </e>
+    <e p="C:\Users\vacha\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\vacha\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_UnityProject.-673245981.00" t="ExcludeRecursive" />
+  </component>
+</project>
